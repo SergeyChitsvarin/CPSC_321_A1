@@ -70,9 +70,16 @@ B = 2*((X1 - XC) * (X2 - X1) + (Y1 - YC) * (Y2 - Y1))
 C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
 
 # looking at value under the root to find the number of intersections
+# References:
+# if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
 VALUE_UNDER_ROOT = (B**2 - 4*A*C)
 if VALUE_UNDER_ROOT < 0:
-    print("there are no intersections")
+    # writing 'No Intersect' if there are no intersections
+    # Reference:
+    # write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
+    pointer.goto(WIDTH/2, HEIGHT/2)
+    pointer.color("green")
+    pointer.write("No Intersect!", True, align="center")
 if VALUE_UNDER_ROOT == 0:
     print("there is one intersection")
 if VALUE_UNDER_ROOT > 0:
