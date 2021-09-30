@@ -57,6 +57,11 @@ pointer.penup()
 
 # drawing blue line
 
+pointer.color("blue")
+pointer.goto(X_1, Y_1)
+pointer.pendown()
+pointer. goto(X_2, Y_2)
+pointer.penup()
 
 
 
