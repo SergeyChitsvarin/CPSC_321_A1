@@ -5,6 +5,21 @@ import math
 WIDTH = 800
 HEIGHT = 600
 
+# the function takes the alpha as an argument
+# it uses alpha to find intercept
+# and draws a green circle around the intercept
+# References:
+# function declaration with arguments https://www.w3schools.com/python/python_functions.asp
+def draw_intercept(alpha):
+    intercept_x = (1-alpha)*X1+(alpha*X2)
+    intercept_y = (1-alpha)*Y1+(alpha*Y2)
+    intercept_radius = 5
+    pointer.goto(intercept_x, intercept_y-intercept_radius)
+    pointer.color("green")
+    pointer.pendown()
+    pointer.circle(intercept_radius)
+    pointer.penup()
+
 pointer = turtle.Turtle()
 screen = turtle.getscreen()
 screen.setup(WIDTH, HEIGHT, 0, 0)
@@ -57,7 +72,6 @@ pointer.circle(RADIUS)
 pointer.penup()
 
 # drawing blue line
-
 pointer.color("blue")
 pointer.goto(X1, Y1)
 pointer.pendown()
@@ -74,8 +88,6 @@ C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
 # if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
 VALUE_UNDER_ROOT = (B**2 - 4*A*C)
 
-INTERCEPT_RADIUS = 5
-
 if VALUE_UNDER_ROOT < 0:
     # writing 'No Intersect' if there are no intersections
     # Reference:
@@ -85,42 +97,18 @@ if VALUE_UNDER_ROOT < 0:
     pointer.write("No Intersect!", True, align="center")
 if VALUE_UNDER_ROOT == 0:
     # finding the intercept and drawing a green circle around it
-    ALPHA = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
-    INTERCEPT_X = (1-ALPHA)*X1+(ALPHA*X2)
-    INTERCEPT_Y = (1-ALPHA)*Y1+(ALPHA*Y2)
-    pointer.goto(INTERCEPT_X, INTERCEPT_Y-INTERCEPT_RADIUS)
-    pointer.color("green")
-    pointer.pendown()
-    pointer.circle(INTERCEPT_RADIUS)
-    pointer.penup()
+    alpha = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
+    draw_intercept(alpha)
 if VALUE_UNDER_ROOT > 0:
     # finding the two intercepts and drawing green circles around them
-    ALPHA_POSITIVE_CASE = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
-    ALPHA_NEGATIVE_CASE = (-B-math.sqrt(VALUE_UNDER_ROOT))/(2*A)
-    INTERCEPT_X1 = (1-ALPHA_POSITIVE_CASE)*X1+(ALPHA_POSITIVE_CASE*X2)
-    INTERCEPT_Y1 = (1-ALPHA_POSITIVE_CASE)*Y1+(ALPHA_POSITIVE_CASE*Y2)
-    INTERCEPT_X2 = (1-ALPHA_NEGATIVE_CASE)*X1+(ALPHA_NEGATIVE_CASE*X2)
-    INTERCEPT_Y2 = (1-ALPHA_NEGATIVE_CASE)*Y1+(ALPHA_NEGATIVE_CASE*Y2)
-    pointer.goto(INTERCEPT_X1, INTERCEPT_Y1-INTERCEPT_RADIUS)
-    pointer.color("green")
-    pointer.pendown()
-    pointer.circle(INTERCEPT_RADIUS)
-    pointer.penup()
-    pointer.goto(INTERCEPT_X2, INTERCEPT_Y2-INTERCEPT_RADIUS)
-    pointer.pendown()
-    pointer.circle(INTERCEPT_RADIUS)
-    pointer.penup()
-
-
-# ALPHA = (-B+math.sqrt(B**2 -4*A*C))/(2*A)
-
-
+    alpha_positive_case = (-B + math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
+    draw_intercept(alpha_positive_case)
+    alpha_negative_case = (-B - math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
+    draw_intercept(alpha_negative_case)
 
 print(A)
 print(B)
 print(C)
 
-
-
-
 screen.exitonclick()
+
