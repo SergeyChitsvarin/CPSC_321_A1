@@ -69,15 +69,18 @@ A = (X2 - X1) ** 2 + (Y2 - Y1) ** 2
 B = 2*((X1 - XC) * (X2 - X1) + (Y1 - YC) * (Y2 - Y1))
 C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
 
-
-
-
-NUMBER_INTERSECTIONS = (B**2 - 4*A*C)
+# looking at value under the root to find the number of intersections
+VALUE_UNDER_ROOT = (B**2 - 4*A*C)
+if VALUE_UNDER_ROOT < 0:
+    print("there are no intersections")
+if VALUE_UNDER_ROOT == 0:
+    print("there is one intersection")
+if VALUE_UNDER_ROOT > 0:
+    print("there are two intersections")
 
 print(A)
 print(B)
 print(C)
-print(NUMBER_INTERSECTIONS)
 
 
 
