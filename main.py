@@ -1,5 +1,6 @@
 
 import turtle
+import math
 
 WIDTH = 800
 HEIGHT = 600
@@ -39,18 +40,18 @@ pointer.penup()
 # getting input and converting to required type
 # References:
 # string to int conversion https://stackoverflow.com/questions/379906/how-do-i-parse-a-string-to-a-float-or-int
-X_C = int(input("Enter the Xc (integer): "))
-Y_C = int(input("Enter the Yc (integer): "))
+XC = int(input("Enter the Xc (integer): "))
+YC = int(input("Enter the Yc (integer): "))
 RADIUS = float(input("Enter the radius (float): "))
-X_1 = int(input("Enter X1 (integer): "))
-Y_1 = int(input("Enter Y1 (integer): "))
-X_2 = int(input("Enter X2 (integer): "))
-Y_2 = int(input("Enter Y2 (integer): "))
+X1 = int(input("Enter X1 (integer): "))
+Y1 = int(input("Enter Y1 (integer): "))
+X2 = int(input("Enter X2 (integer): "))
+Y2 = int(input("Enter Y2 (integer): "))
 
 # drawing red circle
 
 pointer.color("red")
-pointer.goto(X_C, Y_C-RADIUS)
+pointer.goto(XC, YC - RADIUS)
 pointer.pendown()
 pointer.circle(RADIUS)
 pointer.penup()
@@ -58,26 +59,27 @@ pointer.penup()
 # drawing blue line
 
 pointer.color("blue")
-pointer.goto(X_1, Y_1)
+pointer.goto(X1, Y1)
 pointer.pendown()
-pointer. goto(X_2, Y_2)
+pointer. goto(X2, Y2)
 pointer.penup()
+
+# 3 intermediate calculations to determine intersections
+A = (X2 - X1) ** 2 + (Y2 - Y1) ** 2
+B = 2*((X1 - XC) * (X2 - X1) + (Y1 - YC) * (Y2 - Y1))
+C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
+
+
+
+
+NUMBER_INTERSECTIONS = (B**2 - 4*A*C)
+
+print(A)
+print(B)
+print(C)
+print(NUMBER_INTERSECTIONS)
 
 
 
 
 screen.exitonclick()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
