@@ -11,14 +11,16 @@ HEIGHT = 600
 # References:
 # function declaration with arguments https://www.w3schools.com/python/python_functions.asp
 def draw_intercept(alpha):
-    intercept_x = (1-alpha)*X1+(alpha*X2)
-    intercept_y = (1-alpha)*Y1+(alpha*Y2)
-    intercept_radius = 5
-    pointer.goto(intercept_x, intercept_y-intercept_radius)
-    pointer.color("green")
-    pointer.pendown()
-    pointer.circle(intercept_radius)
-    pointer.penup()
+    # this assures that an intersection does not occur outside of the end points of the line segment
+    if  alpha >= 0 and alpha <= 1:
+        intercept_x = (1-alpha)*X1+(alpha*X2)
+        intercept_y = (1-alpha)*Y1+(alpha*Y2)
+        intercept_radius = 5
+        pointer.goto(intercept_x, intercept_y-intercept_radius)
+        pointer.color("green")
+        pointer.pendown()
+        pointer.circle(intercept_radius)
+        pointer.penup()
 
 pointer = turtle.Turtle()
 screen = turtle.getscreen()
@@ -64,7 +66,6 @@ X2 = int(input("Enter X2 (integer): "))
 Y2 = int(input("Enter Y2 (integer): "))
 
 # drawing red circle
-
 pointer.color("red")
 pointer.goto(XC, YC - RADIUS)
 pointer.pendown()
