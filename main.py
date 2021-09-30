@@ -93,9 +93,23 @@ if VALUE_UNDER_ROOT == 0:
     pointer.pendown()
     pointer.circle(INTERCEPT_RADIUS)
     pointer.penup()
-
 if VALUE_UNDER_ROOT > 0:
-    print("there are two intersections")
+    # finding the two intercepts and drawing green circles around them
+    ALPHA_POSITIVE_CASE = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
+    ALPHA_NEGATIVE_CASE = (-B-math.sqrt(VALUE_UNDER_ROOT))/(2*A)
+    INTERCEPT_X1 = (1-ALPHA_POSITIVE_CASE)*X1+(ALPHA_POSITIVE_CASE*X2)
+    INTERCEPT_Y1 = (1-ALPHA_POSITIVE_CASE)*Y1+(ALPHA_POSITIVE_CASE*Y2)
+    INTERCEPT_X2 = (1-ALPHA_NEGATIVE_CASE)*X1+(ALPHA_NEGATIVE_CASE*X2)
+    INTERCEPT_Y2 = (1-ALPHA_NEGATIVE_CASE)*Y1+(ALPHA_NEGATIVE_CASE*Y2)
+    pointer.goto(INTERCEPT_X1, INTERCEPT_Y1-INTERCEPT_RADIUS)
+    pointer.color("green")
+    pointer.pendown()
+    pointer.circle(INTERCEPT_RADIUS)
+    pointer.penup()
+    pointer.goto(INTERCEPT_X2, INTERCEPT_Y2-INTERCEPT_RADIUS)
+    pointer.pendown()
+    pointer.circle(INTERCEPT_RADIUS)
+    pointer.penup()
 
 
 # ALPHA = (-B+math.sqrt(B**2 -4*A*C))/(2*A)
