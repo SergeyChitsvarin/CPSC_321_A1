@@ -73,6 +73,9 @@ C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
 # References:
 # if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
 VALUE_UNDER_ROOT = (B**2 - 4*A*C)
+
+INTERCEPT_RADIUS = 5
+
 if VALUE_UNDER_ROOT < 0:
     # writing 'No Intersect' if there are no intersections
     # Reference:
@@ -81,9 +84,23 @@ if VALUE_UNDER_ROOT < 0:
     pointer.color("green")
     pointer.write("No Intersect!", True, align="center")
 if VALUE_UNDER_ROOT == 0:
-    print("there is one intersection")
+    # finding the intercept and drawing a green circle around it
+    ALPHA = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
+    INTERCEPT_X = (1-ALPHA)*X1+(ALPHA*X2)
+    INTERCEPT_Y = (1-ALPHA)*Y1+(ALPHA*Y2)
+    pointer.goto(INTERCEPT_X, INTERCEPT_Y-INTERCEPT_RADIUS)
+    pointer.color("green")
+    pointer.pendown()
+    pointer.circle(INTERCEPT_RADIUS)
+    pointer.penup()
+
 if VALUE_UNDER_ROOT > 0:
     print("there are two intersections")
+
+
+# ALPHA = (-B+math.sqrt(B**2 -4*A*C))/(2*A)
+
+
 
 print(A)
 print(B)
