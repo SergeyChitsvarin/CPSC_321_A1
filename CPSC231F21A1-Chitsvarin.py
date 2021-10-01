@@ -91,6 +91,7 @@ def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
             pointer.pendown()
             pointer.circle(intercept_radius)
             pointer.penup()
+            sum_of_intercepts = sum_of_intercepts + 1
     else:
         # line case (not a single point)
 
