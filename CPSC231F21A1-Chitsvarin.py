@@ -10,24 +10,30 @@
 # if circle and line intersect the program shows the intersection point(s)
 # if they do not intercept the program says 'no intercepts!'
 
+# import libraries
 import turtle
 import math
 
+# define constants
 WIDTH = 800
 HEIGHT = 600
+
 # define global variable sum_of_intercepts
 sum_of_intercepts = 0
 
-# the function takes the alpha as an argument
-# it uses alpha to find intercept
-# and draws a green circle around the intercept
+# the function takes the alpha and line coordinates as arguments
+# it tries to find an intercept
+# and draws a green circle if there is an intercept
 # References:
 # function declaration with arguments https://www.w3schools.com/python/python_functions.asp
 def draw_intercept(alpha, x1, y1, x2, y2):
     # this assures that an intersection does not occur outside of the end points of the line segment
     if  alpha >= 0 and alpha <= 1:
+        # find intercept coordinates
         intercept_x = (1-alpha) * x1 + (alpha * x2)
         intercept_y = (1-alpha) * y1 + (alpha * y2)
+
+        # draw intercept
         intercept_radius = 5
         pointer.goto(intercept_x, intercept_y-intercept_radius)
         pointer.color("green")
@@ -41,7 +47,7 @@ def draw_intercept(alpha, x1, y1, x2, y2):
         sum_of_intercepts = sum_of_intercepts + 1
 
 
-# This function writes 'No Intersect' if there are no intersections
+# This function writes 'No Intersect' in the middle of the screen if there are no intersections
 # Reference:
 # write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
 def write_no_intersect():
@@ -49,7 +55,10 @@ def write_no_intersect():
     pointer.color("green")
     pointer.write("No Intersect!", True, align="center")
 
+
+# This function takes user input for line coordinates and draws a blue line
 def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
+    # remember sum of intercepts before drawing the line
     global sum_of_intercepts
     sum_of_intercepts_before = sum_of_intercepts
 
@@ -66,12 +75,15 @@ def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
     pointer. goto(x2, y2)
     pointer.penup()
 
-    # check if user draws a point or a line
+    # check if user wants to draw a point or a line
     if x1 == x2 and y1 == y2:
         # single point case
-        # if the distance is equal to the radius then there is an intersection and a green circle will be drawn around it
+
+        # find distance and difference
         distance = math.sqrt((XC - x1) ** 2 + (YC - y1) ** 2)
         difference = math.fabs(RADIUS - distance)
+
+        # if difference between radius an distance is within 0.75 then there is an intersection and a green circle will be drawn around it
         if difference <= 0.75:
             intercept_radius = 5
             pointer.goto(x1, y1 - intercept_radius)
@@ -81,21 +93,28 @@ def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
             pointer.penup()
     else:
         # line case (not a single point)
+
+        # calculate a,b, and c used in quadratic formula
         a = (x2 - x1) ** 2 + (y2 - y1) ** 2
         b = 2*((x1 - XC) * (x2 - x1) + (y1 - YC) * (y2 - y1))
         c = (x1 - XC) ** 2 + (y1 - YC) ** 2 - RADIUS ** 2
 
-        # looking at value under the root to find the number of intersections
+        # looking at the value under the root to find the number of intersections
         # References:
         # if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
         value_under_root = (b**2 - 4*a*c)
 
+        # there are no intersections, write 'no intersect'
         if value_under_root < 0:
             write_no_intersect()
+
+        # there is one intercept, draw it
         if value_under_root == 0:
             # finding the intercept and drawing a green circle around it
             alpha = (-b+math.sqrt(value_under_root))/(2*a)
             draw_intercept(alpha, x1, y1, x2, y2)
+
+        # there are two intercepts, draw them
         if value_under_root > 0:
             # finding the two intercepts and drawing green circles around them
             alpha_positive_case = (-b + math.sqrt(value_under_root)) / (2 * a)
@@ -107,12 +126,14 @@ def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
         write_no_intersect()
     print(sum_of_intercepts, "intersections have been found so far")
 
+# this code is from assignment description
 pointer = turtle.Turtle()
 screen = turtle.getscreen()
 screen.setup(WIDTH, HEIGHT, 0, 0)
 screen.setworldcoordinates(0, 0, WIDTH, HEIGHT)
 pointer.hideturtle()
 screen.delay(delay=0)
+
 
 # drawing x axes
 # References:
@@ -139,7 +160,7 @@ pointer.pendown()
 pointer.goto(Y_AXES_BOTTOM_X, Y_AXES_BOTTOM_Y)
 pointer.penup()
 
-# getting input about circle and converting to required type
+# getting input about circle and converting it to required types
 # References:
 # string to float conversion https://stackoverflow.com/questions/379906/how-do-i-parse-a-string-to-a-float-or-int
 XC = int(input("Enter circle x coordinate: "))
@@ -153,12 +174,13 @@ pointer.pendown()
 pointer.circle(RADIUS)
 pointer.penup()
 
-# asking user to input line coordinates and converting them to int
+# asking user to input line coordinates
 x1_string = input("Enter line start x coordinate: ")
 y1_string = input("Enter line start y coordinate: ")
 x2_string = input("Enter line end x coordinate: ")
 y2_string = input("Enter line end y coordinate: ")
 
+# use these coordinates to draw a blue line
 draw_blue_line(x1_string, y1_string, x2_string, y2_string)
 
 # asking for additional pairs of coordinates (bonus) and drawing a line
@@ -166,6 +188,8 @@ draw_blue_line(x1_string, y1_string, x2_string, y2_string)
 # while loop https://www.w3schools.com/python/python_while_loops.asp
 # break from while loop https://realpython.com/python-while-loop/
 while 1:
+    # ask user to enter line coordinates
+    # if user enters a blank coordinate the loop breaks
     x1_string = input("Enter line start x coordinate (additional input): ")
     if x1_string == "":
         break
@@ -180,4 +204,5 @@ while 1:
         break
     draw_blue_line(x1_string, y1_string, x2_string, y2_string)
 
+# exit on click
 screen.exitonclick()
