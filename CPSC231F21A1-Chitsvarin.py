@@ -40,7 +40,19 @@ def draw_intercept(alpha, x1, y1, x2, y2):
         global sum_of_intercepts
         sum_of_intercepts = sum_of_intercepts + 1
 
+
+# This function writes 'No Intersect' if there are no intersections
+# Reference:
+# write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
+def write_no_intersect():
+    pointer.goto(WIDTH/2, HEIGHT/2)
+    pointer.color("green")
+    pointer.write("No Intersect!", True, align="center")
+
 def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
+    global sum_of_intercepts
+    sum_of_intercepts_before = sum_of_intercepts
+
     # convert variables x1,y1,x2,y2 from string to integer
     x1 = int(x1_string)
     y1 = int(y1_string)
@@ -79,12 +91,7 @@ def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
         value_under_root = (b**2 - 4*a*c)
 
         if value_under_root < 0:
-            # writing 'No Intersect' if there are no intersections
-            # Reference:
-            # write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
-            pointer.goto(WIDTH/2, HEIGHT/2)
-            pointer.color("green")
-            pointer.write("No Intersect!", True, align="center")
+            write_no_intersect()
         if value_under_root == 0:
             # finding the intercept and drawing a green circle around it
             alpha = (-b+math.sqrt(value_under_root))/(2*a)
@@ -96,7 +103,8 @@ def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
             alpha_negative_case = (-b - math.sqrt(value_under_root)) / (2 * a)
             draw_intercept(alpha_negative_case, x1, y1, x2, y2)
     # access global variable 'sum_of_intercepts' and print its value
-    global sum_of_intercepts
+    if sum_of_intercepts_before == sum_of_intercepts:
+        write_no_intersect()
     print(sum_of_intercepts, "intersections have been found so far")
 
 pointer = turtle.Turtle()
