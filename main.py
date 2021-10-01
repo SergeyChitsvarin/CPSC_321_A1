@@ -65,6 +65,10 @@ Y1 = int(input("Enter Y1 (integer): "))
 X2 = int(input("Enter X2 (integer): "))
 Y2 = int(input("Enter Y2 (integer): "))
 
+
+
+
+
 # drawing red circle
 pointer.color("red")
 pointer.goto(XC, YC - RADIUS)
@@ -80,9 +84,19 @@ pointer. goto(X2, Y2)
 pointer.penup()
 
 if X1 == X2 and Y1 == Y2:
-    print("this will result in a dot")
+    # single point case
+    # if the distance is equal to the radius then there is an intersection and a green circle will be drawn around it
+    distance = math.sqrt((XC-X1)**2 + (YC-Y1)**2)
+    if distance == RADIUS:
+        intercept_radius = 5
+        pointer.goto(X1,Y1-intercept_radius)
+        pointer.color("green")
+        pointer.pendown()
+        pointer.circle(intercept_radius)
+        pointer.penup()
+
 else:
-    print("this will produce a line")
+    # line case (not a single point)
     A = (X2 - X1) ** 2 + (Y2 - Y1) ** 2
     B = 2*((X1 - XC) * (X2 - X1) + (Y1 - YC) * (Y2 - Y1))
     C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
