@@ -79,37 +79,35 @@ pointer.pendown()
 pointer. goto(X2, Y2)
 pointer.penup()
 
-# 3 intermediate calculations to determine intersections
-A = (X2 - X1) ** 2 + (Y2 - Y1) ** 2
-B = 2*((X1 - XC) * (X2 - X1) + (Y1 - YC) * (Y2 - Y1))
-C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
+if X1 == X2 and Y1 == Y2:
+    print("this will result in a dot")
+else:
+    print("this will produce a line")
+    A = (X2 - X1) ** 2 + (Y2 - Y1) ** 2
+    B = 2*((X1 - XC) * (X2 - X1) + (Y1 - YC) * (Y2 - Y1))
+    C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
 
-# looking at value under the root to find the number of intersections
-# References:
-# if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
-VALUE_UNDER_ROOT = (B**2 - 4*A*C)
+    # looking at value under the root to find the number of intersections
+    # References:
+    # if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
+    VALUE_UNDER_ROOT = (B**2 - 4*A*C)
 
-if VALUE_UNDER_ROOT < 0:
-    # writing 'No Intersect' if there are no intersections
-    # Reference:
-    # write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
-    pointer.goto(WIDTH/2, HEIGHT/2)
-    pointer.color("green")
-    pointer.write("No Intersect!", True, align="center")
-if VALUE_UNDER_ROOT == 0:
-    # finding the intercept and drawing a green circle around it
-    alpha = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
-    draw_intercept(alpha)
-if VALUE_UNDER_ROOT > 0:
-    # finding the two intercepts and drawing green circles around them
-    alpha_positive_case = (-B + math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
-    draw_intercept(alpha_positive_case)
-    alpha_negative_case = (-B - math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
-    draw_intercept(alpha_negative_case)
-
-print(A)
-print(B)
-print(C)
+    if VALUE_UNDER_ROOT < 0:
+        # writing 'No Intersect' if there are no intersections
+        # Reference:
+        # write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
+        pointer.goto(WIDTH/2, HEIGHT/2)
+        pointer.color("green")
+        pointer.write("No Intersect!", True, align="center")
+    if VALUE_UNDER_ROOT == 0:
+        # finding the intercept and drawing a green circle around it
+        alpha = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
+        draw_intercept(alpha)
+    if VALUE_UNDER_ROOT > 0:
+        # finding the two intercepts and drawing green circles around them
+        alpha_positive_case = (-B + math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
+        draw_intercept(alpha_positive_case)
+        alpha_negative_case = (-B - math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
+        draw_intercept(alpha_negative_case)
 
 screen.exitonclick()
-
