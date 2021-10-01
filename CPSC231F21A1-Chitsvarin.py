@@ -21,17 +21,74 @@ HEIGHT = 600
 # and draws a green circle around the intercept
 # References:
 # function declaration with arguments https://www.w3schools.com/python/python_functions.asp
-def draw_intercept(alpha):
+def draw_intercept(alpha, x1, y1, x2, y2):
     # this assures that an intersection does not occur outside of the end points of the line segment
     if  alpha >= 0 and alpha <= 1:
-        intercept_x = (1-alpha)*X1+(alpha*X2)
-        intercept_y = (1-alpha)*Y1+(alpha*Y2)
+        intercept_x = (1-alpha) * x1 + (alpha * x2)
+        intercept_y = (1-alpha) * y1 + (alpha * y2)
         intercept_radius = 5
         pointer.goto(intercept_x, intercept_y-intercept_radius)
         pointer.color("green")
         pointer.pendown()
         pointer.circle(intercept_radius)
         pointer.penup()
+
+def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
+    # convert variables x1,y1,x2,y2 from string to integer
+    x1 = int(x1_string)
+    y1 = int(y1_string)
+    x2 = int(x2_string)
+    y2 = int(y2_string)
+
+    # drawing blue line
+    pointer.color("blue")
+    pointer.goto(x1, y1)
+    pointer.pendown()
+    pointer. goto(x2, y2)
+    pointer.penup()
+
+    # check if user draws a point or a line
+    if x1 == x2 and y1 == y2:
+        # single point case
+        # if the distance is equal to the radius then there is an intersection and a green circle will be drawn around it
+        distance = math.sqrt((XC - x1) ** 2 + (YC - y1) ** 2)
+        difference = math.fabs(RADIUS - distance)
+        if difference <= 0.75:
+            intercept_radius = 5
+            pointer.goto(x1, y1 - intercept_radius)
+            pointer.color("green")
+            pointer.pendown()
+            pointer.circle(intercept_radius)
+            pointer.penup()
+    else:
+        # line case (not a single point)
+        a = (x2 - x1) ** 2 + (y2 - y1) ** 2
+        b = 2*((x1 - XC) * (x2 - x1) + (y1 - YC) * (y2 - y1))
+        c = (x1 - XC) ** 2 + (y1 - YC) ** 2 - RADIUS ** 2
+
+        # looking at value under the root to find the number of intersections
+        # References:
+        # if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
+        value_under_root = (b**2 - 4*a*c)
+
+        if value_under_root < 0:
+            # writing 'No Intersect' if there are no intersections
+            # Reference:
+            # write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
+            pointer.goto(WIDTH/2, HEIGHT/2)
+            pointer.color("green")
+            pointer.write("No Intersect!", True, align="center")
+        if value_under_root == 0:
+            # finding the intercept and drawing a green circle around it
+            alpha = (-b+math.sqrt(value_under_root))/(2*a)
+            draw_intercept(alpha, x1, y1, x2, y2)
+        if value_under_root > 0:
+            # finding the two intercepts and drawing green circles around them
+            alpha_positive_case = (-b + math.sqrt(value_under_root)) / (2 * a)
+            draw_intercept(alpha_positive_case, x1, y1, x2, y2)
+            alpha_negative_case = (-b - math.sqrt(value_under_root)) / (2 * a)
+            draw_intercept(alpha_negative_case, x1, y1, x2, y2)
+
 
 pointer = turtle.Turtle()
 screen = turtle.getscreen()
@@ -65,9 +122,9 @@ pointer.pendown()
 pointer.goto(Y_AXES_BOTTOM_X, Y_AXES_BOTTOM_Y)
 pointer.penup()
 
-# getting input and converting to required type
+# getting input about circle and converting to required type
 # References:
-# string to int conversion https://stackoverflow.com/questions/379906/how-do-i-parse-a-string-to-a-float-or-int
+# string to float conversion https://stackoverflow.com/questions/379906/how-do-i-parse-a-string-to-a-float-or-int
 XC = int(input("Enter circle x coordinate: "))
 YC = int(input("Enter circle y coordinate: "))
 RADIUS = float(input("Enter radius of circle: "))
@@ -79,59 +136,31 @@ pointer.pendown()
 pointer.circle(RADIUS)
 pointer.penup()
 
-X1 = int(input("Enter line start x coordinate: "))
-Y1 = int(input("Enter line start y coordinate: "))
-X2 = int(input("Enter line end x coordinate: "))
-Y2 = int(input("Enter line end y coordinate: "))
+# asking user to input line coordinates and converting them to int
+x1_string = input("Enter line start x coordinate: ")
+y1_string = input("Enter line start y coordinate: ")
+x2_string = input("Enter line end x coordinate: ")
+y2_string = input("Enter line end y coordinate: ")
 
-# drawing blue line
-pointer.color("blue")
-pointer.goto(X1, Y1)
-pointer.pendown()
-pointer. goto(X2, Y2)
-pointer.penup()
+draw_blue_line(x1_string, y1_string, x2_string, y2_string)
 
-# check if user draws a point or a line
-if X1 == X2 and Y1 == Y2:
-    # single point case
-    # if the distance is equal to the radius then there is an intersection and a green circle will be drawn around it
-    distance = math.sqrt((XC-X1)**2 + (YC-Y1)**2)
-    difference = math.fabs(RADIUS - distance)
-    if difference <= 0.75:
-        intercept_radius = 5
-        pointer.goto(X1,Y1-intercept_radius)
-        pointer.color("green")
-        pointer.pendown()
-        pointer.circle(intercept_radius)
-        pointer.penup()
-
-else:
-    # line case (not a single point)
-    A = (X2 - X1) ** 2 + (Y2 - Y1) ** 2
-    B = 2*((X1 - XC) * (X2 - X1) + (Y1 - YC) * (Y2 - Y1))
-    C = (X1 - XC) ** 2 + (Y1 - YC) ** 2 - RADIUS ** 2
-
-    # looking at value under the root to find the number of intersections
-    # References:
-    # if statements http://anh.cs.luc.edu/handsonPythonTutorial/ifstatements.html
-    VALUE_UNDER_ROOT = (B**2 - 4*A*C)
-
-    if VALUE_UNDER_ROOT < 0:
-        # writing 'No Intersect' if there are no intersections
-        # Reference:
-        # write() function https://docs.python.org/3.3/library/turtle.html?highlight=turtle#turtle.write
-        pointer.goto(WIDTH/2, HEIGHT/2)
-        pointer.color("green")
-        pointer.write("No Intersect!", True, align="center")
-    if VALUE_UNDER_ROOT == 0:
-        # finding the intercept and drawing a green circle around it
-        alpha = (-B+math.sqrt(VALUE_UNDER_ROOT))/(2*A)
-        draw_intercept(alpha)
-    if VALUE_UNDER_ROOT > 0:
-        # finding the two intercepts and drawing green circles around them
-        alpha_positive_case = (-B + math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
-        draw_intercept(alpha_positive_case)
-        alpha_negative_case = (-B - math.sqrt(VALUE_UNDER_ROOT)) / (2 * A)
-        draw_intercept(alpha_negative_case)
+# asking for additional pairs of coordinates (bonus) and drawing a line
+# References:
+# while loop https://www.w3schools.com/python/python_while_loops.asp
+# break from while loop https://realpython.com/python-while-loop/
+while 1:
+    x1_string = input("Enter line start x coordinate (additional input): ")
+    if x1_string == "":
+        break
+    y1_string = input("Enter line start y coordinate (additional input): ")
+    if y1_string == "":
+        break
+    x2_string = input("Enter line end x coordinate (additional input): ")
+    if x2_string == "":
+        break
+    y2_string = input("Enter line end y coordinate (additional input): ")
+    if y2_string == "":
+        break
+    draw_blue_line(x1_string, y1_string, x2_string, y2_string)
 
 screen.exitonclick()
