@@ -15,6 +15,8 @@ import math
 
 WIDTH = 800
 HEIGHT = 600
+# define global variable sum_of_intercepts
+sum_of_intercepts = 0
 
 # the function takes the alpha as an argument
 # it uses alpha to find intercept
@@ -32,6 +34,11 @@ def draw_intercept(alpha, x1, y1, x2, y2):
         pointer.pendown()
         pointer.circle(intercept_radius)
         pointer.penup()
+        # access and increment global variable 'sum_of_intercepts' every time intersection is drawn
+        # References:
+        # access and modify global variables https://stackoverflow.com/questions/10588317/python-function-global-variables
+        global sum_of_intercepts
+        sum_of_intercepts = sum_of_intercepts + 1
 
 def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
     # convert variables x1,y1,x2,y2 from string to integer
@@ -88,7 +95,9 @@ def draw_blue_line(x1_string, y1_string, x2_string, y2_string):
             draw_intercept(alpha_positive_case, x1, y1, x2, y2)
             alpha_negative_case = (-b - math.sqrt(value_under_root)) / (2 * a)
             draw_intercept(alpha_negative_case, x1, y1, x2, y2)
-
+    # access global variable 'sum_of_intercepts' and print its value
+    global sum_of_intercepts
+    print(sum_of_intercepts, "intersections have been found so far")
 
 pointer = turtle.Turtle()
 screen = turtle.getscreen()
