@@ -1,4 +1,15 @@
-# Cpsc 231, Sergey Chitsvarin, tutorial 2, 30154758,09/30/2021
+# CPSC 231, Sergey Chitsvarin, tutorial 2, 30154758,09/30/2021
+#
+# 1) To run my program in the terminal
+# open terminal and open the folder containing this file
+# run this command in the terminal: python .\CPSC231F21A1-Chitsvarin.py
+# 2) to run my program in PyCharm
+# open file in PyCharm and do right-click within the file then click run
+#
+# this program asks the user for input and uses this input to draw a circle and a line,
+# if circle and line intersect the program shows the intersection point(s)
+# if they do not intercept the program says 'no intercepts!'
+
 import turtle
 import math
 
@@ -57,17 +68,9 @@ pointer.penup()
 # getting input and converting to required type
 # References:
 # string to int conversion https://stackoverflow.com/questions/379906/how-do-i-parse-a-string-to-a-float-or-int
-XC = int(input("Enter the Xc (integer): "))
-YC = int(input("Enter the Yc (integer): "))
-RADIUS = float(input("Enter the radius (float): "))
-X1 = int(input("Enter X1 (integer): "))
-Y1 = int(input("Enter Y1 (integer): "))
-X2 = int(input("Enter X2 (integer): "))
-Y2 = int(input("Enter Y2 (integer): "))
-
-
-
-
+XC = int(input("Enter circle x coordinate: "))
+YC = int(input("Enter circle y coordinate: "))
+RADIUS = float(input("Enter radius of circle: "))
 
 # drawing red circle
 pointer.color("red")
@@ -75,6 +78,11 @@ pointer.goto(XC, YC - RADIUS)
 pointer.pendown()
 pointer.circle(RADIUS)
 pointer.penup()
+
+X1 = int(input("Enter line start x coordinate: "))
+Y1 = int(input("Enter line start y coordinate: "))
+X2 = int(input("Enter line end x coordinate: "))
+Y2 = int(input("Enter line end y coordinate: "))
 
 # drawing blue line
 pointer.color("blue")
