@@ -1,4 +1,4 @@
-
+# Cpsc 231, Sergey Chitsvarin, tutorial 2, 30154758,09/30/2021
 import turtle
 import math
 
@@ -83,11 +83,13 @@ pointer.pendown()
 pointer. goto(X2, Y2)
 pointer.penup()
 
+# check if user draws a point or a line
 if X1 == X2 and Y1 == Y2:
     # single point case
     # if the distance is equal to the radius then there is an intersection and a green circle will be drawn around it
     distance = math.sqrt((XC-X1)**2 + (YC-Y1)**2)
-    if distance == RADIUS:
+    difference = math.fabs(RADIUS - distance)
+    if difference <= 0.75:
         intercept_radius = 5
         pointer.goto(X1,Y1-intercept_radius)
         pointer.color("green")
