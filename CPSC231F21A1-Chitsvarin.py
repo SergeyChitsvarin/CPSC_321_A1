@@ -184,7 +184,7 @@ y2_string = input("Enter line end y coordinate: ")
 # use these coordinates to draw a blue line
 draw_blue_line(x1_string, y1_string, x2_string, y2_string)
 
-# asking for additional pairs of coordinates (bonus) and drawing a line
+# asking for infinite additional pairs of coordinates (bonus) and drawing a line
 # References:
 # while loop https://www.w3schools.com/python/python_while_loops.asp
 # break from while loop https://realpython.com/python-while-loop/
